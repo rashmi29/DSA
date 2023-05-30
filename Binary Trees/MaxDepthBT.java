@@ -1,4 +1,4 @@
-class MaxDepth {
+class MaxDepthBT {
     public int maxDepth(TreeNode root) {
         
         if(root == null) {
