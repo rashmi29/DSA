@@ -1,0 +1,88 @@
+class MyCircularQueue {
+    Node head = new Node(0);
+    Node tail = new Node(0);
+    int maxSize, currSize;
+    
+    public MyCircularQueue(int k) {
+        this.maxSize = k;
+        currSize = 0;
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public boolean enQueue(int value) {
+        if(isFull())
+            return false;
+            
+        addNode(new Node(value));
+        currSize++;
+        return true;
+    }
+    
+    public boolean deQueue() {
+        if(isEmpty())
+            return false;
+            
+        removeNode();
+        currSize--;
+        return true;
+    }
+    
+    public int Front() {
+        if(isEmpty())
+            return -1;
+        
+        return head.next.val;
+    }
+    
+    public int Rear() {
+        if(isEmpty())
+            return -1;
+        
+        return tail.prev.val;
+    }
+    
+    public boolean isEmpty() {
+        return (head.next == tail);
+    }
+    
+    public boolean isFull() {
+        return (currSize == maxSize);
+    }
+    
+    private void addNode(Node newNode) {
+        Node prevNode = tail.prev;
+        
+        tail.prev = newNode;
+        prevNode.next = newNode;
+        newNode.next = tail;
+        newNode.prev = prevNode;
+        
+    }
+    
+    private void removeNode() {
+        Node nextNode = head.next.next;
+        head.next = nextNode;
+        nextNode.prev = head;
+    }
+}
+
+class Node {
+    int val;
+    Node next , prev ;
+    
+    Node(int val) {
+        this.val = val;
+    }
+}
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue obj = new MyCircularQueue(k);
+ * boolean param_1 = obj.enQueue(value);
+ * boolean param_2 = obj.deQueue();
+ * int param_3 = obj.Front();
+ * int param_4 = obj.Rear();
+ * boolean param_5 = obj.isEmpty();
+ * boolean param_6 = obj.isFull();
+ */
