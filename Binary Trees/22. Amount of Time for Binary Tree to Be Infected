@@ -1,0 +1,84 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int amountOfTime(TreeNode root, int start) {
+        HashMap<TreeNode, TreeNode> parentMap = new HashMap<>();
+        TreeNode startNode = null;
+        startNode = getParent( root, parentMap, start);
+
+        Queue<TreeNode> q = new LinkedList<>();
+        HashMap<TreeNode, Boolean> visited = new HashMap<>();
+        
+        q.offer(startNode);
+        visited.put(startNode, true);
+        int time = 0;
+        
+        while(!q.isEmpty()) {
+            int size = q.size();
+            time++;
+
+            for(int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if(node.left != null && visited.get(node.left) ==null) {
+                    visited.put(node.left, true);
+                    q.offer(node.left);
+                }
+                
+                if(node.right != null && visited.get(node.right) ==null) {
+                    visited.put(node.right, true);
+                    q.offer(node.right);
+                }
+                
+                if(parentMap.get(node) != null && visited.get(parentMap.get(node)) == null) {
+                    visited.put(parentMap.get(node), true);
+                    q.offer(parentMap.get(node));
+                }
+            }
+        }
+        return time-1;
+    }
+    
+    TreeNode getParent(TreeNode root, HashMap<TreeNode, TreeNode> parentMap, int start) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        parentMap.put(root, null);
+        TreeNode startNode = null;
+        
+        while(!q.isEmpty()){
+            int size = q.size();
+            
+            for(int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                
+                if(node.val == start) {
+                    startNode = node;
+                }
+                
+                if(node.left != null) {
+                    parentMap.put(node.left, node);
+                    q.offer(node.left);
+                }
+                
+                if(node.right != null) {
+                    parentMap.put(node.right, node);
+                    q.offer(node.right);
+                }
+            }
+        }
+        
+        return startNode;
+    }
+}
