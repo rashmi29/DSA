@@ -1,0 +1,44 @@
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if(s1.length() > s2.length())
+            return false;
+        
+        Map<Character, Integer> map = new HashMap<>();
+        for(int i = 0; i < s1.length(); i++) {
+            char currChar = s1.charAt(i);
+            map.put(currChar, map.getOrDefault(currChar, 0)+1);
+        }
+        
+        int count = map.size();
+        int i = 0, j = 0;
+        int n = s2.length();
+        int k = s1.length();
+        
+        while(j<n) {
+            char currChar = s2.charAt(j);
+            if(map.containsKey(currChar)) {
+                map.put(currChar, map.get(currChar)-1);
+                if(map.get(currChar) == 0)
+                    count--;
+            }
+            
+            if(j-i+1 < k){
+                j++;
+            } else {
+                if(count == 0)
+                    return true;
+                
+                char charI = s2.charAt(i);
+                if(map.containsKey(charI)) {
+                    map.put(charI, map.get(charI)+1);
+                    if(map.get(charI) == 1)
+                        count++;
+                }
+                i++;
+                j++;
+            }
+        }
+        
+        return false;
+    }
+}
