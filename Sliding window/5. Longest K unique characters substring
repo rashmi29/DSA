@@ -1,0 +1,39 @@
+class Solution {
+    public int longestkSubstr(String s, int k) {
+        
+        if(s.length() < k) 
+            return -1;
+            
+        // code here
+        Map<Character, Integer> map = new HashMap<>();
+        int i = 0, j = 0, max = -1;
+        int n = s.length();
+        
+        while(j < n) {
+            char currChar = s.charAt(j);
+            
+            map.put(currChar, map.getOrDefault(currChar, 0) +1);
+            
+            int size = map.size();
+            if(size < k) {
+                j++;
+            } else if(size == k) {
+                max = Math.max(max, j-i+1);
+                j++;
+            } else if(size > k){
+                while(map.size() > k) {
+                    char currChar1 = s.charAt(i);
+                    map.put(currChar1, map.get(currChar1)-1);
+                    if(map.get(currChar1) == 0) {
+                        map.remove(currChar1);
+                    }
+                    i++;
+                }
+                
+                j++;
+            }
+        }
+        
+        return max;
+    }
+}
