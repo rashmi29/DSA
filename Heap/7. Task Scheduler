@@ -1,0 +1,44 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int time = 0;
+        
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for(int i = 0; i < tasks.length; i++) {
+            freqMap.put(tasks[i], freqMap.getOrDefault(tasks[i], 0) +1);
+        }    
+        
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        for(Map.Entry<Character, Integer> entry: freqMap.entrySet()) {
+            maxHeap.offer(entry.getValue());
+        }
+        
+        Queue<Pair> q = new LinkedList<>();
+        while(!q.isEmpty() || !maxHeap.isEmpty()) {
+            time++;
+            
+            if(!maxHeap.isEmpty()) {
+                int val = maxHeap.poll();
+                val--;
+                if(val > 0) {
+                    q.offer(new Pair(val, time + n));
+                }
+            }
+            
+            if(!q.isEmpty() && q.peek().availTime == time) {
+                maxHeap.offer(q.poll().value);
+            }
+        }
+        
+        return time;
+    }
+}
+
+class Pair {
+    int value;
+    int availTime;
+    
+    Pair(int value, int availTime) {
+        this.value = value;
+        this.availTime = availTime;
+    }
+}
