@@ -1,0 +1,72 @@
+Bobble BackgroundBobble Head
+Problems
+Courses
+Geek-O-Lympics
+Events
+POTD
+
+Refresh
+
+Time (IST)	Status	Lang	Test Cases	Code
+2023-07-05 23:52:06	Wrong	java	10 / 210	View
+2023-07-05 23:52:01	Compilation Error	java	0 / 210	View
+2023-07-05 23:50:59	Wrong	java	10 / 210	View
+2023-07-05 23:49:20	Wrong	java	10 / 210	View
+Java (1.8)
+Average Time: 20m
+
+
+
+}
+
+
+
+Custom Input
+
+
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        for(int i = 0; i < V; i++) {
+            if(!visited[i]) {
+                if(isDetectCycle(0, adj, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    boolean isDetectCycle(int start, ArrayList<ArrayList<Integer>> adj, boolean[] visited) {
+        Queue<Pair> q = new LinkedList<>();
+        visited[start] = true;
+        q.offer(new Pair(start, -1));
+        
+        while(!q.isEmpty()) {
+            int node = q.peek().node;
+            int parent = q.peek().parent;
+            q.poll();
+            
+            for(Integer neighbour : adj.get(node)) {
+                if(!visited[neighbour]) {
+                    visited[neighbour] = true;
+                    q.offer(new Pair(neighbour, node));
+                } else if(parent != neighbour){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+}
+
+class Pair {
+    int node, parent;
+    
+    Pair(int node, int parent) {
+        this.node = node;
+        this.parent = parent;
+    }
+}
