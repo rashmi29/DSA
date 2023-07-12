@@ -1,0 +1,75 @@
+
+
+//User function Template for Java
+class Solution {
+
+	public int[] shortestPath(int N,int M, int[][] edges) {
+		int[] dist = new int[N];
+		Arrays.fill(dist, (int)(1e9));
+		
+		// Generate adj from given edges matrix
+		List<List<Pair>> adj = new ArrayList<>();
+		for(int i = 0; i < N; i++) {
+		    adj.add(new ArrayList<>());
+		}
+		
+		for(int i = 0; i < edges.length; i++) {
+		    int u = edges[i][0];
+		    int v = edges[i][1];
+		    int dis = edges[i][2];
+		    
+		    adj.get(u).add(new Pair(v, dis));
+		}
+		
+		// Topo sort using dfs
+		boolean[] vis = new boolean[N];
+		Stack<Integer> stack = new Stack<>();
+		for(int i = 0 ; i < N; i++) {
+		    if(!vis[i]) {
+		        dfs(i, adj, stack, vis);
+		    }
+		}
+		
+		// Get min distance from 0
+		dist[0] = 0;
+		while(!stack.isEmpty()) {
+		    int node = stack.pop();
+		    
+		    for(Pair it: adj.get(node)) {
+		        int v = it.v;
+		        int distance = it.dist;
+		        
+		        if(dist[v] > dist[node] + distance) {
+		            dist[v] = dist[node] + distance;
+		        }
+		    }
+		}
+		
+		for (int i = 0; i < N; i++) {
+          if (dist[i] == 1e9) dist[i] = -1;
+        }
+        
+		return dist;
+	}
+	
+	static void dfs(int node, List<List<Pair>> adj, Stack<Integer> stack, boolean[] vis) {
+	    vis[node] = true;
+	    
+	    for(Pair it: adj.get(node)) {
+	        if(!vis[it.v]) {
+	            dfs(it.v, adj, stack, vis);
+	        }
+	    }
+	    
+	    stack.push(node);
+	}
+}
+
+class Pair {
+    int v, dist;
+    
+    Pair(int v, int dist) {
+        this.v = v;
+        this.dist = dist;
+    }
+}
