@@ -1,0 +1,44 @@
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int n = image.length;
+        int m = image[0].length;
+        int[] di = new int[]{-1, 0, +1, 0};
+        int[] dj = new int[]{0, +1, 0, -1};
+
+        int initColr = image[sr][sc];
+        int[][] ans = image;
+        boolean[][] visited = new boolean[n][m];
+
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(sr,sc));
+
+        while(!q.isEmpty()) {
+                int row = q.peek().row;
+                int col = q.peek().col;
+                q.poll();
+                
+                visited[row][col]=true;
+                ans[row][col] = color;
+
+                for(int i = 0 ; i < 4; i++) {
+                    int nextRow = row + di[i];
+                    int nextCol = col + dj[i];
+
+                    if(nextRow>=0 && nextRow < n && nextCol >=0 && nextCol < m && image[nextRow][nextCol] == initColr && !visited[nextRow][nextCol]) {
+                        q.offer(new Pair(nextRow, nextCol));
+                    }
+                }
+        }
+
+        return ans;
+    }
+}
+
+class Pair {
+    int row, col;
+
+    Pair(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+}
