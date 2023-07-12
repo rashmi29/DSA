@@ -1,0 +1,47 @@
+
+
+// User function Template for Java
+
+class Solution {
+    int countDistinctIslands(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int[] di = new int[] { -1, 0,1,0};
+        int[] dj = new int[] {0,1,0,-1};
+        
+        boolean[][] visited = new boolean[n][m];
+        Set<List<String>> set = new HashSet<>();
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if(grid[i][j] == 1 && !visited[i][j]) {
+                    List<String> islandStr = new ArrayList<>();
+                    //System.out.println("-----");
+                    dfs(i,j, grid, visited, di,dj, i,j, islandStr);
+                    
+                    set.add(islandStr);
+                }
+            }
+        }
+        
+        return set.size();
+    }
+    
+    void dfs(int row, int col, int[][] grid, boolean[][] visited, int[] di, int[] dj, int baseRow, int baseCol, List<String> islandStr) {
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        visited[row][col] = true;
+        islandStr.add(Integer.toString(row-baseRow)+"->"+Integer.toString(col-baseCol));
+        //System.out.println((row-baseRow)+"->"+(col-baseCol));
+        
+        for(int i = 0; i < 4; i++) {
+            int nRow = row + di[i];
+            int nCol = col + dj[i];
+            //System.out.println(nRow + "++++++" + nCol);
+            if(nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && !visited[nRow][nCol] && grid[nRow][nCol] == 1) {
+                dfs(nRow, nCol, grid, visited, di,dj, baseRow, baseCol, islandStr);
+            }
+        }
+    }
+}
