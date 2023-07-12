@@ -1,0 +1,52 @@
+class Solution {
+    public void solve(char[][] board) {
+        int n = board.length;
+        int m = board[0].length;
+        boolean[][] visited = new boolean[n][m];  
+        int[] di = new int[] {-1,0,1,0};
+        int[] dj = new int[] {0,1,0,-1};
+
+        for(int i = 0; i < n ; i++) {
+            if(board[i][0] == 'O') {
+                dfs(i, 0, visited, board, di, dj);
+            }
+
+            if(board[i][m-1] == 'O') {
+                dfs(i, m-1, visited, board, di, dj);
+            }
+        }
+
+        for(int i = 0; i < m ; i++) {
+            if(board[0][i] == 'O') {
+                dfs(0, i, visited, board, di, dj);
+            }
+
+            if(board[n-1][i] == 'O') {
+                dfs(n-1, i, visited, board, di, dj);
+            }
+        }
+
+        for(int i = 0 ; i < n ; i++) {
+            for(int j = 0 ; j < m ; j++) {
+                if(board[i][j] == 'O' && !visited[i][j]) {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+
+    }
+
+    void dfs(int row, int col, boolean[][] visited, char[][] board, int[] di, int[] dj) {
+        visited[row][col] = true;
+
+        for(int i = 0; i < 4 ; i++) {
+            int nRow = row + di[i];
+            int nCol = col + dj[i];
+
+            if(nRow>= 0 && nRow < board.length && nCol >= 0 && nCol < board[0].length && !visited[nRow][nCol] && board[nRow][nCol] == 'O') {
+                visited[nRow][nCol] = true;
+                dfs(nRow, nCol, visited, board, di, dj);
+            }
+        }
+    }
+}
