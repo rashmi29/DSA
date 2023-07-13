@@ -1,28 +1,3 @@
-Bobble BackgroundBobble Head
-Problems
-Courses
-Geek-O-Lympics
-Events
-POTD
-
-Refresh
-
-Time (IST)	Status	Lang	Test Cases	Code
-2023-07-05 23:52:06	Wrong	java	10 / 210	View
-2023-07-05 23:52:01	Compilation Error	java	0 / 210	View
-2023-07-05 23:50:59	Wrong	java	10 / 210	View
-2023-07-05 23:49:20	Wrong	java	10 / 210	View
-Java (1.8)
-Average Time: 20m
-
-
-
-}
-
-
-
-Custom Input
-
 
 class Solution {
     // Function to detect cycle in an undirected graph.
