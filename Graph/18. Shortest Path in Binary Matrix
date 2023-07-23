@@ -1,0 +1,50 @@
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+
+        if(grid[0][0] == 1)
+            return -1;
+
+        int n = grid.length;
+        boolean[][] vis = new boolean[n][n];
+        int[] di = new int[]{-1,-1,0,1,1,1,0,-1};
+        int[] dj = new int[]{0,1,1,1,0,-1,-1,-1};
+
+        int clrPath = 0;
+
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(0,0,1));
+        vis[0][0] = true;
+
+        while(!q.isEmpty()) {
+            int row = q.peek().row;
+            int col = q.peek().col;
+            int distance = q.poll().distance;
+
+            if(row == n-1 && col == n-1)
+                return distance;
+
+            vis[row][col] = true;
+
+            for(int i = 0 ; i < 8 ; i++) {
+                int nRow = row+di[i];
+                int nCol = col+dj[i];
+
+                if(nRow >= 0 && nRow < grid.length && nCol >= 0 && nCol < grid.length && grid[nRow][nCol] == 0 && !vis[nRow][nCol]) {
+                    vis[nRow][nCol] = true;
+                    q.offer(new Pair(nRow, nCol, distance+1));
+                }
+            } 
+        }
+        return -1;
+    }
+}    
+
+ class Pair {
+     int row, col, distance;
+
+     Pair(int row, int col, int distance) {
+         this.row = row;
+         this.col = col;
+         this.distance = distance;
+     }
+ }
